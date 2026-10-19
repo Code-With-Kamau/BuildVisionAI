@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Brand and chart colours (light). values-night/colors.xml holds the dark set. Every foreground /
+  background pair used by the theme, and the seven cost-chart colours against the surfaces they sit
+  on, is checked by ThemeContrastTest (WCAG 2.x: 4.5:1 for text, 3:1 for chart marks and outlines).
+-->
+<resources>
+    <color name="bv_primary">#0B5CAD</color>
+    <color name="bv_on_primary">#FFFFFF</color>
+    <color name="bv_primary_container">#D6E4FF</color>
+    <color name="bv_on_primary_container">#001B3E</color>
+    <color name="bv_secondary">#565F71</color>
+    <color name="bv_on_secondary">#FFFFFF</color>
+    <color name="bv_secondary_container">#DAE2F9</color>
+    <color name="bv_on_secondary_container">#131C2B</color>
+    <color name="bv_surface">#FAF9FD</color>
+    <color name="bv_on_surface">#1A1B20</color>
+    <color name="bv_surface_variant">#E1E2EC</color>
+    <color name="bv_on_surface_variant">#44474F</color>
+    <color name="bv_outline">#74777F</color>
+    <color name="bv_error">#BA1A1A</color>
+    <color name="bv_on_error">#FFFFFF</color>
+    <color name="bv_card">#F0EFF4</color>
+
+    <!-- Cost chart, in CostCategory order: foundation, walling, roofing, finishes, plumbing, electrical, labour. -->
+    <color name="bv_chart_1">#0058A0</color>
+    <color name="bv_chart_2">#B36B00</color>
+    <color name="bv_chart_3">#00795A</color>
+    <color name="bv_chart_4">#A1507F</color>
+    <color name="bv_chart_5">#007C91</color>
+    <color name="bv_chart_6">#8F7A00</color>
+    <color name="bv_chart_7">#6D5BD0</color>
+
+    <color name="bv_icon_background">#0B5CAD</color>
+    <color name="bv_icon_foreground">#FFFFFF</color>
+</resources>

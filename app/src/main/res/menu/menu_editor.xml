@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_undo"
+        android:icon="@drawable/ic_undo"
+        android:title="@string/editor_undo"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_redo"
+        android:icon="@drawable/ic_redo"
+        android:title="@string/editor_redo"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_estimate"
+        android:icon="@drawable/ic_estimate"
+        android:title="@string/editor_estimate"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_assistant"
+        android:icon="@drawable/ic_assistant"
+        android:title="@string/editor_assistant"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_suggestions"
+        android:title="@string/editor_suggestions"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_versions"
+        android:title="@string/editor_versions"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_view_options"
+        android:title="@string/editor_view_options"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_units"
+        android:title="@string/editor_units"
+        app:showAsAction="never" />
+</menu>

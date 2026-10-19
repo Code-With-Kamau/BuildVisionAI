@@ -1,0 +1,108 @@
+import org.gradle.api.tasks.OutputDirectory
+import org.gradle.process.CommandLineArgumentProvider
+
+plugins {
+    alias(libs.plugins.android.application)
+}
+
+// Room writes one JSON schema per database version into app/schemas; commit them. Migration tests read them.
+// This is a plain Gradle argument provider on purpose. AGP 9 uses its new DSL only, and the old
+// defaultConfig.javaCompileOptions.annotationProcessorOptions block is not documented there, so the schema
+// location is passed to javac directly. Declaring the folder as an output keeps the build cache from
+// skipping schema export on a cache hit.
+class RoomSchemaArgs implements CommandLineArgumentProvider {
+    private final File dir
+
+    RoomSchemaArgs(File dir) { this.dir = dir }
+
+    @OutputDirectory
+    File getSchemaDir() { return dir }
+
+    @Override
+    Iterable<String> asArguments() { return ["-Aroom.schemaLocation=" + dir.path] }
+}
+
+android {
+    namespace = "com.buildvisionai"
+    compileSdk = 37
+
+    defaultConfig {
+        applicationId = "com.buildvisionai"
+        minSdk = 24
+        targetSdk = 36
+        versionCode = 1
+        versionName = "0.1.0"
+
+        // Empty = the cloud assistant is off and the on-device OfflineAssistant answers instead.
+        buildConfigField "String", "AI_BASE_URL", '""'
+    }
+
+    buildFeatures {
+        buildConfig = true
+        viewBinding = true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled = true
+            shrinkResources = true
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+        }
+        debug {
+            applicationIdSuffix = ".debug"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    lint {
+        // Lint's NewApi check is what guards minSdk 24 against newer java.* calls; keep it an error.
+        abortOnError = true
+        warningsAsErrors = false
+        checkReleaseBuilds = true
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+}
+
+dependencies {
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.constraintlayout
+    implementation libs.androidx.recyclerview
+    implementation libs.androidx.core
+    implementation libs.androidx.activity
+    implementation libs.androidx.fragment
+    implementation libs.material
+
+    implementation libs.androidx.lifecycle.viewmodel
+    implementation libs.androidx.lifecycle.livedata
+    implementation libs.androidx.navigation.fragment
+    implementation libs.androidx.navigation.ui
+
+    implementation libs.androidx.room.runtime
+    annotationProcessor libs.androidx.room.compiler
+
+    implementation libs.androidx.work.runtime
+
+    implementation libs.retrofit
+    implementation libs.retrofit.converter.gson
+    implementation libs.gson
+
+    testImplementation libs.junit
+    testImplementation libs.gson
+}
+
+// Pass the Room schema folder to the annotation processor of the app's own compile tasks (not the test ones).
+tasks.withType(JavaCompile).configureEach { task ->
+    File sqliteTmpDir = file("${layout.buildDirectory.get()}/tmp/sqlite")
+    sqliteTmpDir.mkdirs()
+    System.setProperty("org.sqlite.tmpdir", sqliteTmpDir.absolutePath)
+    if (!task.name.contains("UnitTest") && !task.name.contains("AndroidTest")) {
+        task.options.compilerArgumentProviders.add(new RoomSchemaArgs(file("schemas")))
+    }
+}

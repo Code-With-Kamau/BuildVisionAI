@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bv_primary">#AAC7FF</color>
+    <color name="bv_on_primary">#002F64</color>
+    <color name="bv_primary_container">#00458C</color>
+    <color name="bv_on_primary_container">#D6E4FF</color>
+    <color name="bv_secondary">#BEC6DC</color>
+    <color name="bv_on_secondary">#283141</color>
+    <color name="bv_secondary_container">#3E4759</color>
+    <color name="bv_on_secondary_container">#DAE2F9</color>
+    <color name="bv_surface">#121316</color>
+    <color name="bv_on_surface">#E3E2E6</color>
+    <color name="bv_surface_variant">#44474F</color>
+    <color name="bv_on_surface_variant">#C4C6D0</color>
+    <color name="bv_outline">#8E9099</color>
+    <color name="bv_error">#FFB4AB</color>
+    <color name="bv_on_error">#690005</color>
+    <color name="bv_card">#1F1F23</color>
+
+    <color name="bv_chart_1">#5AA9FF</color>
+    <color name="bv_chart_2">#E69F00</color>
+    <color name="bv_chart_3">#2FC59A</color>
+    <color name="bv_chart_4">#E08CC0</color>
+    <color name="bv_chart_5">#3CC4DE</color>
+    <color name="bv_chart_6">#F0E442</color>
+    <color name="bv_chart_7">#A99CFF</color>
+
+    <color name="bv_icon_background">#00458C</color>
+    <color name="bv_icon_foreground">#D6E4FF</color>
+</resources>

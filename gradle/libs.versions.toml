@@ -1,0 +1,41 @@
+# Versions were researched on 2026-10 for this project. Open the project in Android Studio and let it
+# offer updates; nothing here was resolved against a real repository when this file was written.
+[versions]
+agp = "9.4.0"
+appcompat = "1.8.0"
+constraintlayout = "2.2.2"
+recyclerview = "1.4.0"
+coreKtx = "1.19.1"          # androidx.core:core (the Java artifact is core, not core-ktx)
+activity = "1.13.0"
+fragment = "1.9.1"
+material = "1.14.0"
+lifecycle = "2.11.0"
+navigation = "2.10.2"
+room = "2.8.5"
+work = "2.12.0"
+retrofit = "3.0.0"
+gson = "2.14.0"
+junit = "4.13.2"
+
+[libraries]
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
+androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
+androidx-core = { module = "androidx.core:core", version.ref = "coreKtx" }
+androidx-activity = { module = "androidx.activity:activity", version.ref = "activity" }
+androidx-fragment = { module = "androidx.fragment:fragment", version.ref = "fragment" }
+material = { module = "com.google.android.material:material", version.ref = "material" }
+androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel", version.ref = "lifecycle" }
+androidx-lifecycle-livedata = { module = "androidx.lifecycle:lifecycle-livedata", version.ref = "lifecycle" }
+androidx-navigation-fragment = { module = "androidx.navigation:navigation-fragment", version.ref = "navigation" }
+androidx-navigation-ui = { module = "androidx.navigation:navigation-ui", version.ref = "navigation" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+androidx-work-runtime = { module = "androidx.work:work-runtime", version.ref = "work" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+junit = { module = "junit:junit", version.ref = "junit" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.BuildVision" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/bv_primary</item>
+        <item name="colorOnPrimary">@color/bv_on_primary</item>
+        <item name="colorPrimaryContainer">@color/bv_primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/bv_on_primary_container</item>
+        <item name="colorSecondary">@color/bv_secondary</item>
+        <item name="colorOnSecondary">@color/bv_on_secondary</item>
+        <item name="colorSecondaryContainer">@color/bv_secondary_container</item>
+        <item name="colorOnSecondaryContainer">@color/bv_on_secondary_container</item>
+        <item name="colorSurface">@color/bv_surface</item>
+        <item name="colorOnSurface">@color/bv_on_surface</item>
+        <item name="colorSurfaceVariant">@color/bv_surface_variant</item>
+        <item name="colorOnSurfaceVariant">@color/bv_on_surface_variant</item>
+        <item name="colorOutline">@color/bv_outline</item>
+        <item name="colorError">@color/bv_error</item>
+        <item name="colorOnError">@color/bv_on_error</item>
+        <item name="android:colorBackground">@color/bv_surface</item>
+        <item name="android:windowBackground">@color/bv_surface</item>
+    </style>
+
+    <style name="BV.Text.Title" parent="TextAppearance.Material3.TitleMedium" />
+    <style name="BV.Text.Body" parent="TextAppearance.Material3.BodyMedium" />
+    <style name="BV.Text.Label" parent="TextAppearance.Material3.LabelMedium">
+        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
+    </style>
+    <style name="BV.Text.Headline" parent="TextAppearance.Material3.HeadlineSmall" />
+    <style name="BV.Card" parent="Widget.Material3.CardView.Filled">
+        <item name="cardBackgroundColor">@color/bv_card</item>
+        <item name="cardElevation">0dp</item>
+    </style>
+</resources>

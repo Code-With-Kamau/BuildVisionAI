@@ -1,0 +1,2066 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "2eacf5f530e922d5b3bae92548bf7a09",
+    "entities": [
+      {
+        "tableName": "projects",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`projectId` TEXT NOT NULL, `projectName` TEXT NOT NULL, `ownerName` TEXT, `location` TEXT, `county` TEXT, `plotWidthM` REAL NOT NULL, `plotLengthM` REAL NOT NULL, `budgetKes` REAL NOT NULL, `buildingType` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, `status` TEXT NOT NULL, `headVersionId` TEXT, `archived` INTEGER NOT NULL, PRIMARY KEY(`projectId`))",
+        "fields": [
+          {
+            "fieldPath": "projectId",
+            "columnName": "projectId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "projectName",
+            "columnName": "projectName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ownerName",
+            "columnName": "ownerName",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "location",
+            "columnName": "location",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "county",
+            "columnName": "county",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "plotWidthM",
+            "columnName": "plotWidthM",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "plotLengthM",
+            "columnName": "plotLengthM",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "budgetKes",
+            "columnName": "budgetKes",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "buildingType",
+            "columnName": "buildingType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "headVersionId",
+            "columnName": "headVersionId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "archived",
+            "columnName": "archived",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "projectId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_projects_updatedAt",
+            "unique": false,
+            "columnNames": [
+              "updatedAt"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_projects_updatedAt` ON `${TABLE_NAME}` (`updatedAt`)"
+          }
+        ]
+      },
+      {
+        "tableName": "versions",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `projectId` TEXT NOT NULL, `number` INTEGER NOT NULL, `label` TEXT, `parentVersionId` TEXT, `createdAt` INTEGER NOT NULL, `createdBy` TEXT, `workflowState` TEXT NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`projectId`) REFERENCES `projects`(`projectId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "projectId",
+            "columnName": "projectId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "number",
+            "columnName": "number",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "label",
+            "columnName": "label",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "parentVersionId",
+            "columnName": "parentVersionId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdBy",
+            "columnName": "createdBy",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "workflowState",
+            "columnName": "workflowState",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_versions_projectId_number",
+            "unique": true,
+            "columnNames": [
+              "projectId",
+              "number"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_versions_projectId_number` ON `${TABLE_NAME}` (`projectId`, `number`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "projects",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "projectId"
+            ],
+            "referencedColumns": [
+              "projectId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "floors",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`versionId` TEXT NOT NULL, `id` TEXT NOT NULL, `level` INTEGER NOT NULL, `name` TEXT NOT NULL, `floorToFloorMm` REAL NOT NULL, PRIMARY KEY(`versionId`, `id`), FOREIGN KEY(`versionId`) REFERENCES `versions`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "versionId",
+            "columnName": "versionId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "level",
+            "columnName": "level",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "floorToFloorMm",
+            "columnName": "floorToFloorMm",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "versionId",
+            "id"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "table": "versions",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "versionId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "walls",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`versionId` TEXT NOT NULL, `id` TEXT NOT NULL, `floorId` TEXT NOT NULL, `startX` REAL NOT NULL, `startY` REAL NOT NULL, `endX` REAL NOT NULL, `endY` REAL NOT NULL, `thicknessMm` REAL NOT NULL, `heightMm` REAL NOT NULL, `kind` TEXT NOT NULL, `material` TEXT NOT NULL, PRIMARY KEY(`versionId`, `id`), FOREIGN KEY(`versionId`, `floorId`) REFERENCES `floors`(`versionId`, `id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "versionId",
+            "columnName": "versionId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "floorId",
+            "columnName": "floorId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startX",
+            "columnName": "startX",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startY",
+            "columnName": "startY",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "endX",
+            "columnName": "endX",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "endY",
+            "columnName": "endY",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "thicknessMm",
+            "columnName": "thicknessMm",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "heightMm",
+            "columnName": "heightMm",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "kind",
+            "columnName": "kind",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "material",
+            "columnName": "material",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "versionId",
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_walls_versionId_floorId",
+            "unique": false,
+            "columnNames": [
+              "versionId",
+              "floorId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_walls_versionId_floorId` ON `${TABLE_NAME}` (`versionId`, `floorId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "floors",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "versionId",
+              "floorId"
+            ],
+            "referencedColumns": [
+              "versionId",
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "rooms",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`versionId` TEXT NOT NULL, `id` TEXT NOT NULL, `floorId` TEXT NOT NULL, `name` TEXT NOT NULL, `roomType` TEXT NOT NULL, `anchorX` REAL NOT NULL, `anchorY` REAL NOT NULL, `areaM2` REAL NOT NULL, `grossAreaM2` REAL NOT NULL, `perimeterM` REAL NOT NULL, `widthM` REAL NOT NULL, `lengthM` REAL NOT NULL, PRIMARY KEY(`versionId`, `id`), FOREIGN KEY(`versionId`, `floorId`) REFERENCES `floors`(`versionId`, `id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "versionId",
+            "columnName": "versionId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "floorId",
+            "columnName": "floorId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "roomType",
+            "columnName": "roomType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "anchorX",
+            "columnName": "anchorX",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "anchorY",
+            "columnName": "anchorY",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "areaM2",
+            "columnName": "areaM2",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "grossAreaM2",
+            "columnName": "grossAreaM2",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "perimeterM",
+            "columnName": "perimeterM",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "widthM",
+            "columnName": "widthM",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lengthM",
+            "columnName": "lengthM",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "versionId",
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_rooms_versionId_floorId",
+            "unique": false,
+            "columnNames": [
+              "versionId",
+              "floorId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_rooms_versionId_floorId` ON `${TABLE_NAME}` (`versionId`, `floorId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "floors",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "versionId",
+              "floorId"
+            ],
+            "referencedColumns": [
+              "versionId",
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "room_walls",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`versionId` TEXT NOT NULL, `roomId` TEXT NOT NULL, `wallId` TEXT NOT NULL, `position` INTEGER NOT NULL, PRIMARY KEY(`versionId`, `roomId`, `wallId`), FOREIGN KEY(`versionId`, `roomId`) REFERENCES `rooms`(`versionId`, `id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`versionId`, `wallId`) REFERENCES `walls`(`versionId`, `id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "versionId",
+            "columnName": "versionId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "roomId",
+            "columnName": "roomId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wallId",
+            "columnName": "wallId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "position",
+            "columnName": "position",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "versionId",
+            "roomId",
+            "wallId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_room_walls_versionId_wallId",
+            "unique": false,
+            "columnNames": [
+              "versionId",
+              "wallId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_room_walls_versionId_wallId` ON `${TABLE_NAME}` (`versionId`, `wallId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "rooms",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "versionId",
+              "roomId"
+            ],
+            "referencedColumns": [
+              "versionId",
+              "id"
+            ]
+          },
+          {
+            "table": "walls",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "versionId",
+              "wallId"
+            ],
+            "referencedColumns": [
+              "versionId",
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "doors",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`versionId` TEXT NOT NULL, `id` TEXT NOT NULL, `floorId` TEXT NOT NULL, `wallId` TEXT NOT NULL, `offsetMm` REAL NOT NULL, `widthMm` REAL NOT NULL, `heightMm` REAL NOT NULL, `doorType` TEXT NOT NULL, `swing` TEXT NOT NULL, PRIMARY KEY(`versionId`, `id`), FOREIGN KEY(`versionId`, `wallId`) REFERENCES `walls`(`versionId`, `id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "versionId",
+            "columnName": "versionId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "floorId",
+            "columnName": "floorId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wallId",
+            "columnName": "wallId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "offsetMm",
+            "columnName": "offsetMm",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "widthMm",
+            "columnName": "widthMm",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "heightMm",
+            "columnName": "heightMm",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "doorType",
+            "columnName": "doorType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "swing",
+            "columnName": "swing",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "versionId",
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_doors_versionId_wallId",
+            "unique": false,
+            "columnNames": [
+              "versionId",
+              "wallId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_doors_versionId_wallId` ON `${TABLE_NAME}` (`versionId`, `wallId`)"
+          },
+          {
+            "name": "index_doors_versionId_floorId",
+            "unique": false,
+            "columnNames": [
+              "versionId",
+              "floorId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_doors_versionId_floorId` ON `${TABLE_NAME}` (`versionId`, `floorId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "walls",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "versionId",
+              "wallId"
+            ],
+            "referencedColumns": [
+              "versionId",
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "windows",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`versionId` TEXT NOT NULL, `id` TEXT NOT NULL, `floorId` TEXT NOT NULL, `wallId` TEXT NOT NULL, `offsetMm` REAL NOT NULL, `widthMm` REAL NOT NULL, `heightMm` REAL NOT NULL, `sillMm` REAL NOT NULL, `windowType` TEXT NOT NULL, PRIMARY KEY(`versionId`, `id`), FOREIGN KEY(`versionId`, `wallId`) REFERENCES `walls`(`versionId`, `id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "versionId",
+            "columnName": "versionId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "floorId",
+            "columnName": "floorId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wallId",
+            "columnName": "wallId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "offsetMm",
+            "columnName": "offsetMm",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "widthMm",
+            "columnName": "widthMm",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "heightMm",
+            "columnName": "heightMm",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sillMm",
+            "columnName": "sillMm",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "windowType",
+            "columnName": "windowType",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "versionId",
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_windows_versionId_wallId",
+            "unique": false,
+            "columnNames": [
+              "versionId",
+              "wallId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_windows_versionId_wallId` ON `${TABLE_NAME}` (`versionId`, `wallId`)"
+          },
+          {
+            "name": "index_windows_versionId_floorId",
+            "unique": false,
+            "columnNames": [
+              "versionId",
+              "floorId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_windows_versionId_floorId` ON `${TABLE_NAME}` (`versionId`, `floorId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "walls",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "versionId",
+              "wallId"
+            ],
+            "referencedColumns": [
+              "versionId",
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "columns",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`versionId` TEXT NOT NULL, `id` TEXT NOT NULL, `floorId` TEXT NOT NULL, `x` REAL NOT NULL, `y` REAL NOT NULL, `widthMm` REAL NOT NULL, `depthMm` REAL NOT NULL, `rotationDeg` REAL NOT NULL, `shape` TEXT NOT NULL, `heightMm` REAL NOT NULL, PRIMARY KEY(`versionId`, `id`), FOREIGN KEY(`versionId`, `floorId`) REFERENCES `floors`(`versionId`, `id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "versionId",
+            "columnName": "versionId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "floorId",
+            "columnName": "floorId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "x",
+            "columnName": "x",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "y",
+            "columnName": "y",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "widthMm",
+            "columnName": "widthMm",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "depthMm",
+            "columnName": "depthMm",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rotationDeg",
+            "columnName": "rotationDeg",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "shape",
+            "columnName": "shape",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "heightMm",
+            "columnName": "heightMm",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "versionId",
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_columns_versionId_floorId",
+            "unique": false,
+            "columnNames": [
+              "versionId",
+              "floorId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_columns_versionId_floorId` ON `${TABLE_NAME}` (`versionId`, `floorId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "floors",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "versionId",
+              "floorId"
+            ],
+            "referencedColumns": [
+              "versionId",
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "stairs",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`versionId` TEXT NOT NULL, `id` TEXT NOT NULL, `floorId` TEXT NOT NULL, `x` REAL NOT NULL, `y` REAL NOT NULL, `widthMm` REAL NOT NULL, `depthMm` REAL NOT NULL, `rotationDeg` REAL NOT NULL, `stairType` TEXT NOT NULL, `riseMm` REAL NOT NULL, `riserMm` REAL NOT NULL, PRIMARY KEY(`versionId`, `id`), FOREIGN KEY(`versionId`, `floorId`) REFERENCES `floors`(`versionId`, `id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "versionId",
+            "columnName": "versionId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "floorId",
+            "columnName": "floorId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "x",
+            "columnName": "x",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "y",
+            "columnName": "y",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "widthMm",
+            "columnName": "widthMm",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "depthMm",
+            "columnName": "depthMm",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rotationDeg",
+            "columnName": "rotationDeg",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stairType",
+            "columnName": "stairType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "riseMm",
+            "columnName": "riseMm",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "riserMm",
+            "columnName": "riserMm",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "versionId",
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_stairs_versionId_floorId",
+            "unique": false,
+            "columnNames": [
+              "versionId",
+              "floorId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_stairs_versionId_floorId` ON `${TABLE_NAME}` (`versionId`, `floorId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "floors",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "versionId",
+              "floorId"
+            ],
+            "referencedColumns": [
+              "versionId",
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "furniture",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`versionId` TEXT NOT NULL, `id` TEXT NOT NULL, `floorId` TEXT NOT NULL, `x` REAL NOT NULL, `y` REAL NOT NULL, `widthMm` REAL NOT NULL, `depthMm` REAL NOT NULL, `rotationDeg` REAL NOT NULL, `furnitureType` TEXT NOT NULL, PRIMARY KEY(`versionId`, `id`), FOREIGN KEY(`versionId`, `floorId`) REFERENCES `floors`(`versionId`, `id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "versionId",
+            "columnName": "versionId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "floorId",
+            "columnName": "floorId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "x",
+            "columnName": "x",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "y",
+            "columnName": "y",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "widthMm",
+            "columnName": "widthMm",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "depthMm",
+            "columnName": "depthMm",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rotationDeg",
+            "columnName": "rotationDeg",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "furnitureType",
+            "columnName": "furnitureType",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "versionId",
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_furniture_versionId_floorId",
+            "unique": false,
+            "columnNames": [
+              "versionId",
+              "floorId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_furniture_versionId_floorId` ON `${TABLE_NAME}` (`versionId`, `floorId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "floors",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "versionId",
+              "floorId"
+            ],
+            "referencedColumns": [
+              "versionId",
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "estimate_settings",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`versionId` TEXT NOT NULL, `finishLevel` TEXT NOT NULL, `roofType` TEXT NOT NULL, `roofPitchDeg` REAL NOT NULL, `roofOverhangMm` REAL NOT NULL, `foundationDepthMm` REAL NOT NULL, `footingThicknessMm` REAL NOT NULL, `footingProjectionMm` REAL NOT NULL, `plinthHeightMm` REAL NOT NULL, `groundSlabMm` REAL NOT NULL, `hardcoreMm` REAL NOT NULL, `upperSlabMm` REAL NOT NULL, `screedMm` REAL NOT NULL, `plasterMm` REAL NOT NULL, `mortarJointMm` REAL NOT NULL, `padSizeMm` REAL NOT NULL, `padThicknessMm` REAL NOT NULL, `windowGrills` INTEGER NOT NULL, `ceilings` INTEGER NOT NULL, `sanitation` TEXT NOT NULL, `waterTankLitres` INTEGER NOT NULL, `preliminariesPct` REAL NOT NULL, `overheadProfitPct` REAL NOT NULL, `contingencyPct` REAL NOT NULL, `professionalFeesPct` REAL NOT NULL, `ncaLevy` INTEGER NOT NULL, `wasteUnits` REAL NOT NULL, `wasteConcrete` REAL NOT NULL, `wasteMortar` REAL NOT NULL, `wasteSteel` REAL NOT NULL, `wasteTiles` REAL NOT NULL, `wastePaint` REAL NOT NULL, `wasteRoofSheets` REAL NOT NULL, `wasteBoards` REAL NOT NULL, `wasteTimber` REAL NOT NULL, PRIMARY KEY(`versionId`), FOREIGN KEY(`versionId`) REFERENCES `versions`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "versionId",
+            "columnName": "versionId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "finishLevel",
+            "columnName": "finishLevel",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "roofType",
+            "columnName": "roofType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "roofPitchDeg",
+            "columnName": "roofPitchDeg",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "roofOverhangMm",
+            "columnName": "roofOverhangMm",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "foundationDepthMm",
+            "columnName": "foundationDepthMm",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "footingThicknessMm",
+            "columnName": "footingThicknessMm",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "footingProjectionMm",
+            "columnName": "footingProjectionMm",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "plinthHeightMm",
+            "columnName": "plinthHeightMm",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "groundSlabMm",
+            "columnName": "groundSlabMm",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hardcoreMm",
+            "columnName": "hardcoreMm",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "upperSlabMm",
+            "columnName": "upperSlabMm",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "screedMm",
+            "columnName": "screedMm",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "plasterMm",
+            "columnName": "plasterMm",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mortarJointMm",
+            "columnName": "mortarJointMm",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "padSizeMm",
+            "columnName": "padSizeMm",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "padThicknessMm",
+            "columnName": "padThicknessMm",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "windowGrills",
+            "columnName": "windowGrills",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ceilings",
+            "columnName": "ceilings",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sanitation",
+            "columnName": "sanitation",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "waterTankLitres",
+            "columnName": "waterTankLitres",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "preliminariesPct",
+            "columnName": "preliminariesPct",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "overheadProfitPct",
+            "columnName": "overheadProfitPct",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "contingencyPct",
+            "columnName": "contingencyPct",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "professionalFeesPct",
+            "columnName": "professionalFeesPct",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ncaLevy",
+            "columnName": "ncaLevy",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wasteUnits",
+            "columnName": "wasteUnits",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wasteConcrete",
+            "columnName": "wasteConcrete",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wasteMortar",
+            "columnName": "wasteMortar",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wasteSteel",
+            "columnName": "wasteSteel",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wasteTiles",
+            "columnName": "wasteTiles",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wastePaint",
+            "columnName": "wastePaint",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wasteRoofSheets",
+            "columnName": "wasteRoofSheets",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wasteBoards",
+            "columnName": "wasteBoards",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wasteTimber",
+            "columnName": "wasteTimber",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "versionId"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "table": "versions",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "versionId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "rate_overrides",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`projectId` TEXT NOT NULL, `itemCode` TEXT NOT NULL, `rateMin` REAL NOT NULL, `rateAvg` REAL NOT NULL, `rateMax` REAL NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`projectId`, `itemCode`), FOREIGN KEY(`projectId`) REFERENCES `projects`(`projectId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "projectId",
+            "columnName": "projectId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "itemCode",
+            "columnName": "itemCode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rateMin",
+            "columnName": "rateMin",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rateAvg",
+            "columnName": "rateAvg",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rateMax",
+            "columnName": "rateMax",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "projectId",
+            "itemCode"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "table": "projects",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "projectId"
+            ],
+            "referencedColumns": [
+              "projectId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "estimates",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `versionId` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `ratePackId` TEXT NOT NULL, `ratePackAsOf` TEXT NOT NULL, `region` TEXT NOT NULL, `finishLevel` TEXT NOT NULL, `grossFloorAreaM2` REAL NOT NULL, `subtotalMin` REAL NOT NULL, `subtotalAvg` REAL NOT NULL, `subtotalMax` REAL NOT NULL, `totalMin` REAL NOT NULL, `totalAvg` REAL NOT NULL, `totalMax` REAL NOT NULL, `perM2Avg` REAL NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`versionId`) REFERENCES `versions`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "versionId",
+            "columnName": "versionId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ratePackId",
+            "columnName": "ratePackId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ratePackAsOf",
+            "columnName": "ratePackAsOf",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "region",
+            "columnName": "region",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "finishLevel",
+            "columnName": "finishLevel",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "grossFloorAreaM2",
+            "columnName": "grossFloorAreaM2",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "subtotalMin",
+            "columnName": "subtotalMin",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "subtotalAvg",
+            "columnName": "subtotalAvg",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "subtotalMax",
+            "columnName": "subtotalMax",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "totalMin",
+            "columnName": "totalMin",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "totalAvg",
+            "columnName": "totalAvg",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "totalMax",
+            "columnName": "totalMax",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "perM2Avg",
+            "columnName": "perM2Avg",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_estimates_versionId_createdAt",
+            "unique": false,
+            "columnNames": [
+              "versionId",
+              "createdAt"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_estimates_versionId_createdAt` ON `${TABLE_NAME}` (`versionId`, `createdAt`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "versions",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "versionId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "estimate_lines",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`estimateId` TEXT NOT NULL, `lineNo` INTEGER NOT NULL, `category` TEXT NOT NULL, `itemCode` TEXT NOT NULL, `basis` TEXT, `qty` REAL NOT NULL, `rateMin` REAL NOT NULL, `rateAvg` REAL NOT NULL, `rateMax` REAL NOT NULL, `totalMin` REAL NOT NULL, `totalAvg` REAL NOT NULL, `totalMax` REAL NOT NULL, `allowance` INTEGER NOT NULL, PRIMARY KEY(`estimateId`, `lineNo`), FOREIGN KEY(`estimateId`) REFERENCES `estimates`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "estimateId",
+            "columnName": "estimateId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lineNo",
+            "columnName": "lineNo",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "category",
+            "columnName": "category",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "itemCode",
+            "columnName": "itemCode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "basis",
+            "columnName": "basis",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "qty",
+            "columnName": "qty",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rateMin",
+            "columnName": "rateMin",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rateAvg",
+            "columnName": "rateAvg",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rateMax",
+            "columnName": "rateMax",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "totalMin",
+            "columnName": "totalMin",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "totalAvg",
+            "columnName": "totalAvg",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "totalMax",
+            "columnName": "totalMax",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "allowance",
+            "columnName": "allowance",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "estimateId",
+            "lineNo"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "table": "estimates",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "estimateId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "estimate_addons",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`estimateId` TEXT NOT NULL, `code` TEXT NOT NULL, `label` TEXT NOT NULL, `ratePct` REAL NOT NULL, `amountMin` REAL NOT NULL, `amountAvg` REAL NOT NULL, `amountMax` REAL NOT NULL, `note` TEXT, PRIMARY KEY(`estimateId`, `code`), FOREIGN KEY(`estimateId`) REFERENCES `estimates`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "estimateId",
+            "columnName": "estimateId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "code",
+            "columnName": "code",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "label",
+            "columnName": "label",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ratePct",
+            "columnName": "ratePct",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "amountMin",
+            "columnName": "amountMin",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "amountAvg",
+            "columnName": "amountAvg",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "amountMax",
+            "columnName": "amountMax",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "note",
+            "columnName": "note",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "estimateId",
+            "code"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "table": "estimates",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "estimateId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "users",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `displayName` TEXT NOT NULL, `email` TEXT, `phone` TEXT, `remoteId` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "displayName",
+            "columnName": "displayName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "email",
+            "columnName": "email",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "phone",
+            "columnName": "phone",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "remoteId",
+            "columnName": "remoteId",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "members",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`projectId` TEXT NOT NULL, `userId` TEXT NOT NULL, `displayName` TEXT NOT NULL, `role` TEXT NOT NULL, `registrationNo` TEXT, `addedAt` INTEGER NOT NULL, PRIMARY KEY(`projectId`, `userId`), FOREIGN KEY(`projectId`) REFERENCES `projects`(`projectId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`userId`) REFERENCES `users`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "projectId",
+            "columnName": "projectId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "displayName",
+            "columnName": "displayName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "role",
+            "columnName": "role",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "registrationNo",
+            "columnName": "registrationNo",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "addedAt",
+            "columnName": "addedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "projectId",
+            "userId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_members_userId",
+            "unique": false,
+            "columnNames": [
+              "userId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_members_userId` ON `${TABLE_NAME}` (`userId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "projects",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "projectId"
+            ],
+            "referencedColumns": [
+              "projectId"
+            ]
+          },
+          {
+            "table": "users",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "userId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "comments",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `versionId` TEXT NOT NULL, `elementId` TEXT, `authorId` TEXT NOT NULL, `authorName` TEXT NOT NULL, `authorRole` TEXT NOT NULL, `text` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `resolved` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`versionId`) REFERENCES `versions`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "versionId",
+            "columnName": "versionId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "elementId",
+            "columnName": "elementId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "authorId",
+            "columnName": "authorId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "authorName",
+            "columnName": "authorName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "authorRole",
+            "columnName": "authorRole",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "text",
+            "columnName": "text",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "resolved",
+            "columnName": "resolved",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_comments_versionId_createdAt",
+            "unique": false,
+            "columnNames": [
+              "versionId",
+              "createdAt"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_comments_versionId_createdAt` ON `${TABLE_NAME}` (`versionId`, `createdAt`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "versions",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "versionId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "suggestions",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `versionId` TEXT NOT NULL, `authorId` TEXT NOT NULL, `authorName` TEXT NOT NULL, `source` TEXT NOT NULL, `status` TEXT NOT NULL, `title` TEXT NOT NULL, `rationale` TEXT, `payloadJson` TEXT, `createdAt` INTEGER NOT NULL, `decidedBy` TEXT, `decidedAt` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`versionId`) REFERENCES `versions`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "versionId",
+            "columnName": "versionId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "authorId",
+            "columnName": "authorId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "authorName",
+            "columnName": "authorName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "source",
+            "columnName": "source",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rationale",
+            "columnName": "rationale",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "payloadJson",
+            "columnName": "payloadJson",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "decidedBy",
+            "columnName": "decidedBy",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "decidedAt",
+            "columnName": "decidedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_suggestions_versionId_status",
+            "unique": false,
+            "columnNames": [
+              "versionId",
+              "status"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_suggestions_versionId_status` ON `${TABLE_NAME}` (`versionId`, `status`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "versions",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "versionId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "approvals",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `versionId` TEXT NOT NULL, `userId` TEXT NOT NULL, `userName` TEXT NOT NULL, `role` TEXT NOT NULL, `stage` TEXT NOT NULL, `decision` TEXT NOT NULL, `comment` TEXT, `createdAt` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`versionId`) REFERENCES `versions`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "versionId",
+            "columnName": "versionId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userName",
+            "columnName": "userName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "role",
+            "columnName": "role",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stage",
+            "columnName": "stage",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "decision",
+            "columnName": "decision",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "comment",
+            "columnName": "comment",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_approvals_versionId_createdAt",
+            "unique": false,
+            "columnNames": [
+              "versionId",
+              "createdAt"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_approvals_versionId_createdAt` ON `${TABLE_NAME}` (`versionId`, `createdAt`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "versions",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "versionId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2eacf5f530e922d5b3bae92548bf7a09')"
+    ]
+  }
+}

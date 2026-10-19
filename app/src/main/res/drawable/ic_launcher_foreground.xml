@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A floor plan seen from above: outer wall, two partition walls and a doorway. Kept inside the 66dp safe zone. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="@color/bv_icon_foreground"
+        android:pathData="M33,33H75V75H33ZM37,37V71H71V37ZM37,51H57V55H37ZM53,37H57V58H53ZM53,65H57V71H53Z" />
+</vector>
